@@ -44,17 +44,28 @@ body {
 }
 
 .logo-icon {
-    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    margin-right: 8px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
 }
 
 .logo-text {
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #8B5CF6, #F97316);
+    background: linear-gradient(135deg, #8b5cf6 0%, #f97316 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
 }
+
+/* ...existing code... */
 
 .nav {
     display: flex;
@@ -760,6 +771,67 @@ body {
 .scroll-top:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+}
+
+/* Typewriter Animation */
+.typewriter {
+    display: inline-block;
+    border-right: 3px solid #8b5cf6;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.05em;
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+.typewriter-delay {
+    display: inline-block;
+    border-right: 3px solid #ffffff;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.05em;
+    animation: blink-caret-delay 0.75s step-end infinite;
+    opacity: 0;
+}
+
+.typewriter-delay-2 {
+    display: inline-block;
+    border-right: 3px solid #f97316;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.05em;
+    animation: blink-caret-delay-2 0.75s step-end infinite;
+    opacity: 0;
+}
+
+.typewriter-show {
+    opacity: 1 !important;
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #8b5cf6;
+    }
+}
+
+@keyframes blink-caret-delay {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #ffffff;
+    }
+}
+
+@keyframes blink-caret-delay-2 {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #f97316;
+    }
 }
 
 /* Responsive Design */

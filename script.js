@@ -97,20 +97,57 @@ if (counter) {
 const form = document.querySelector('.form-container');
 const deadline = document.getElementById('deadline');
 const targetScore = document.getElementById('target-score');
-const continueBtn = document.querySelector('.continue-btn');
+const continueBtn = document.getElementById('order-form-btn');
 
+// Contact navigation handler
+const kontakWa = document.getElementById('kontak-wa');
+if (kontakWa) {
+    kontakWa.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const message = `Halo Admin JokiToeflYu! 👋
+
+Saya ingin konsultasi mengenai layanan joki TOEFL. Mohon informasi lebih lanjut ya! 🙏`;
+        
+        const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    });
+}
+
+// Form submission - direct to WhatsApp
 if (continueBtn) {
     continueBtn.addEventListener('click', (e) => {
         e.preventDefault();
         
-        if (!deadline.value || !targetScore.value) {
-            alert('Silakan isi semua field yang diperlukan!');
-            return;
-        }
+        // Get form values
+        const deadlineValue = deadline.value || 'Belum diisi';
+        const targetScoreValue = targetScore.value || 'Belum diisi';
         
-        // Here you would typically send the data to your server
-        // For now, we'll just show a success message
-        alert('Terima kasih! Kami akan segera menghubungi Anda.');
+        // Create WhatsApp message with form data
+        let message = `Halo Admin JokiToeflYu! 👋
+
+Saya ingin memesan layanan joki TOEFL dengan detail:
+
+📅 Deadline: ${deadlineValue}
+🎯 Target Score: ${targetScoreValue}
+
+Mohon informasi lebih lanjut mengenai harga dan proses pengerjaannya. Terima kasih! 🙏`;
+        
+        // Redirect to WhatsApp
+        const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    });
+    
+    // Handle Enter key press on form inputs
+    [deadline, targetScore].forEach(input => {
+        if (input) {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    continueBtn.click();
+                }
+            });
+        }
     });
 }
 
@@ -136,16 +173,17 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// WhatsApp floating button
+// Floating WhatsApp button
 const floatingWA = document.getElementById('floating-wa');
 if (floatingWA) {
     floatingWA.addEventListener('click', (e) => {
         e.preventDefault();
-        // Replace with your actual WhatsApp number
-        const phoneNumber = '6281234567890'; // Change this to your WhatsApp number
-        const message = 'Halo, saya tertarik dengan jasa joki TOEFL. Bisa minta informasi lebih lanjut?';
-        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(url, '_blank');
+        const message = `Halo Admin JokiToeflYu! 👋
+
+Saya ingin konsultasi mengenai layanan joki TOEFL. Mohon informasi lebih lanjut ya! 🙏`;
+        
+        const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
     });
 }
 
@@ -154,14 +192,12 @@ const ctaButtons = document.querySelectorAll('.cta-button, .order-btn');
 ctaButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         e.preventDefault();
-        // Scroll to form section
-        const formSection = document.querySelector('.project-form');
-        if (formSection) {
-            formSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+        const message = `Halo Admin JokiToeflYu! 👋
+
+Saya ingin konsultasi mengenai layanan joki TOEFL. Mohon informasi lebih lanjut ya! 🙏`;
+        
+        const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
     });
 });
 
@@ -232,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
         // Initialize only essential features
         initEssentialFeatures();
+        initTypewriter();
     } catch (e) {
         console.error('Initialization error:', e);
     }
@@ -283,3 +320,59 @@ Saya ingin konsultasi mengenai layanan joki TOEFL. Mohon informasi lebih lanjut 
         });
     }
 }
+
+// Typewriter Effect
+function typeWriter(element, text, speed = 50) {
+    let i = 0;
+    element.innerHTML = '';
+    element.style.opacity = '1';
+    element.classList.add('typewriter-show');
+    
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            // Remove cursor after typing is complete
+            setTimeout(() => {
+                element.style.borderRight = 'none';
+            }, 1000);
+        }
+    }
+    
+    type();
+}
+
+// Initialize typewriter effect - Single initialization
+let typewriterInitialized = false;
+
+function initTypewriter() {
+    if (typewriterInitialized) return;
+    typewriterInitialized = true;
+    
+    const typewriterElements = document.querySelectorAll('.typewriter, .typewriter-delay, .typewriter-delay-2');
+    
+    typewriterElements.forEach((element, index) => {
+        const text = element.getAttribute('data-text');
+        let delay = 0;
+        
+        if (element.classList.contains('typewriter-delay')) {
+            delay = 1500;
+        } else if (element.classList.contains('typewriter-delay-2')) {
+            delay = 3000;
+        }
+        
+        // Clear existing content and show element
+        element.innerHTML = '';
+        element.style.opacity = '1';
+        element.classList.add('typewriter-show');
+        
+        setTimeout(() => {
+            typeWriter(element, text, 50);
+        }, delay);
+    });
+}
+
+// Single initialization method
+document.addEventListener('DOMContentLoaded', initTypewriter);
